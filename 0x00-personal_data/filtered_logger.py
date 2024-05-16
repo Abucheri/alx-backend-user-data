@@ -55,3 +55,38 @@ class RedactingFormatter(logging.Formatter):
         record.msg = filter_datum(self.fields, self.REDACTION, record.msg,
                                   self.SEPARATOR)
         return super().format(record)
+
+
+# Define the fields from user_data.csv that are considered PII
+PII_FIELDS: List[str] = ["name", "email", "phone", "ssn", "password"]
+
+
+def get_logger() -> logging.Logger:
+    """
+    Configures and returns a logger object.
+
+    Returns:
+        Logger: A configured logger object.
+    """
+    # Create a logger named "user_data"
+    logger = logging.getLogger("user_data")
+
+    # Set the logging level to INFO
+    logger.setLevel(logging.INFO)
+
+    # Create a StreamHandler to log to the console
+    stream_handler = logging.StreamHandler()
+
+    # Create a RedactingFormatter with PII_FIELDS
+    formatter = RedactingFormatter(fields=PII_FIELDS)
+
+    # Set the formatter for the StreamHandler
+    stream_handler.setFormatter(formatter)
+
+    # Add the StreamHandler to the logger
+    logger.addHandler(stream_handler)
+
+    # Prevent messages from being propagated to other loggers
+    logger.propagate = False
+
+    return logger
