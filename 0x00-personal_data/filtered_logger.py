@@ -3,11 +3,11 @@
 Filtered Logger Module
 """
 
-import os
-import mysql.connector
 import logging
 import re
 from typing import List
+from os import environ
+from mysql.connector import connection
 
 
 def filter_datum(fields: List[str], redaction: str, message: str,
@@ -94,7 +94,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> mysql.connector.connection.MySQLConnection:
+def get_db() -> connection.MySQLConnection:
     """
     Returns a connector to the database.
 
@@ -103,17 +103,15 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
                                                     the MySQL database.
     """
     # Get database credentials from environment variables
-    username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
-    password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
-    host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
-    database_name = os.getenv("PERSONAL_DATA_DB_NAME")
+    username = environ.get("PERSONAL_DATA_DB_USERNAME", "root")
+    password = environ.get("PERSONAL_DATA_DB_PASSWORD", "")
+    host = environ.get("PERSONAL_DATA_DB_HOST", "localhost")
+    dbname = environ.get("PERSONAL_DATA_DB_NAME")
 
     # Connect to the database
-    db = mysql.connector.connect(
-        host=host,
+    db = connection.MySQLConnection(
         user=username,
         password=password,
-        database=database_name
-    )
-
+        host=host,
+        database=dbname)
     return db
