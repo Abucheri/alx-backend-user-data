@@ -7,7 +7,7 @@ import logging
 import re
 from typing import List
 from os import environ
-from mysql.connector import connection
+import mysql.connector
 
 
 def filter_datum(fields: List[str], redaction: str, message: str,
@@ -94,24 +94,20 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> connection.MySQLConnection:
-    """
-    Returns a connector to the database.
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """Returns a connector to the database."""
 
-    Returns:
-        mysql.connector.connection.MySQLConnection: A connection to
-                                                    the MySQL database.
-    """
     # Get database credentials from environment variables
     username = environ.get("PERSONAL_DATA_DB_USERNAME", "root")
     password = environ.get("PERSONAL_DATA_DB_PASSWORD", "")
     host = environ.get("PERSONAL_DATA_DB_HOST", "localhost")
-    dbname = environ.get("PERSONAL_DATA_DB_NAME")
+    db_name = environ.get("PERSONAL_DATA_DB_NAME")
 
     # Connect to the database
-    db = connection.MySQLConnection(
+    db = mysql.connector.connection.MySQLConnection(
         user=username,
         password=password,
         host=host,
-        database=dbname)
+        database=db_name
+    )
     return db
