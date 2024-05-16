@@ -3,6 +3,8 @@
 Filtered Logger Module
 """
 
+import os
+import mysql.connector
 import logging
 import re
 from typing import List
@@ -90,3 +92,28 @@ def get_logger() -> logging.Logger:
     logger.addHandler(stream_handler)
 
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """
+    Returns a connector to the database.
+
+    Returns:
+        mysql.connector.connection.MySQLConnection: A connection to
+                                                    the MySQL database.
+    """
+    # Get database credentials from environment variables
+    username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    database_name = os.getenv("PERSONAL_DATA_DB_NAME", "my_db")
+
+    # Connect to the database
+    db = mysql.connector.connect(
+        host=host,
+        user=username,
+        password=password,
+        database=database_name
+    )
+
+    return db
