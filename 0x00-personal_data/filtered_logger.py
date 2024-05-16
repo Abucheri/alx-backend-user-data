@@ -103,6 +103,12 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     host = environ.get("PERSONAL_DATA_DB_HOST", "localhost")
     db_name = environ.get("PERSONAL_DATA_DB_NAME")
 
+    val_err = "Database name not set in environment variable"
+    val_err1 = " PERSONAL_DATA_DB_NAME"
+    final_val_err = val_err + val_err1
+    if not db_name:
+        raise ValueError(final_val_err)
+
     # Connect to the database
     db = mysql.connector.connection.MySQLConnection(
         user=username,
