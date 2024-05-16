@@ -111,3 +111,43 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         database=db_name
     )
     return db
+
+
+def main() -> None:
+    """Main function to retrieve and log filtered user data."""
+    # Get a logger
+    logger = get_logger()
+
+    # Get a database connection
+    db = get_db()
+
+    # Create a cursor to execute queries
+    cursor = db.cursor()
+
+    # Execute a query to retrieve all rows from the users table
+    cursor.execute("SELECT * FROM users")
+
+    # Fetch all rows
+    rows = cursor.fetchall()
+
+    # Log each row in a filtered format
+    for row in rows:
+        filtered_row = {}
+        for field, value in zip(cursor.column_names, row):
+            if field in PII_FIELDS:
+                filtered_row[field] = "***"
+            else:
+                filtered_row[field] = value
+        # Convert the filtered_row dictionary to a formatted string
+        log_message = ("; ".join([f"{key}={value}" for key,
+                       value in filtered_row.items()]))
+        log_message += ";"  # Append a semicolon at the end
+        logger.info(log_message)
+
+    # Close the cursor and database connection
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
