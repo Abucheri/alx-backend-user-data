@@ -6,6 +6,9 @@ In this project, you will learn what the authentication process means and implem
 
 In the industry, you should ***not*** implement your own Basic authentication system and use a module or framework that doing it for you (like in Python-Flask: [Flask-HTTPAuth](https://flask-httpauth.readthedocs.io/en/latest/)). Here, for the learning purpose, we will walk through each step of this mechanism to understand it by doing.
 
+![6ccb363443a8f301bc2bc38d7a08e9650117de7c](https://github.com/Abucheri/alx-backend-user-data/assets/24778489/7d08d213-29de-4070-9072-5a23329119f4)
+
+
 ## Tasks
 
 0. Simple-basic-API
