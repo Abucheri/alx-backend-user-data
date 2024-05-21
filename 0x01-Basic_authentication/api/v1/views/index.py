@@ -34,3 +34,13 @@ def unauthorized_test() -> str:
     This endpoint raises a 401 error for testing the error handler.
     """
     abort(401)
+
+
+@app_views.route('/forbidden', methods=['GET'], strict_slashes=False)
+def forbidden_test() -> str:
+    """
+    GET /api/v1/forbidden
+
+    This endpoint raises a 403 error for testing the error handler.
+    """
+    abort(403)
