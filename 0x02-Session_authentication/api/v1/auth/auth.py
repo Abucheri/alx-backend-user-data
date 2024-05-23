@@ -3,6 +3,7 @@
 Auth module
 """
 
+import os
 from flask import request
 from typing import List, TypeVar
 
@@ -82,3 +83,25 @@ class Auth:
                              no current user is retrieved.
         """
         return None
+
+    def session_cookie(self, request=None):
+        """
+        Returns the value of the session cookie.
+
+        Args:
+            request (flask.Request, optional): The Flask request object.
+
+        Returns:
+            str: The value of the cookie named by the environment variable
+                 SESSION_NAME, or None if the cookie is not found or if
+                 request is None.
+        """
+        if request is None:
+            return None
+
+        # Use the environment variable SESSION_NAME to access the cookie name
+        session_name = os.getenv('SESSION_NAME')
+        if session_name is None:
+            return None
+
+        return request.cookies.get(session_name)
