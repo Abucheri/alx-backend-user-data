@@ -1,5 +1,8 @@
 # 0x03. User authentication service
 
+![4cb3c8c607afc1d1582d](https://github.com/Abucheri/alx-backend-user-data/assets/24778489/b7c98385-c650-4e65-8995-6f1a1cb7daca)
+
+
 In the industry, you should ***not*** implement your own authentication system and use a module or framework that doing it for you (like in Python-Flask: [Flask-User](https://flask-user.readthedocs.io/en/latest/)). Here, for the learning purpose, we will walk through each step of this mechanism to understand it by doing.
 
 ## Setup
