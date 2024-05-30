@@ -23,7 +23,7 @@ def welcome():
 
 
 @app.route('/users', methods=['POST'], strict_slashes=False)
-def users():
+def users() -> str:
     """
     Route for registering a new user.
 
